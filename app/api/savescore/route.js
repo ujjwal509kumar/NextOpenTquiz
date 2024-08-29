@@ -18,9 +18,10 @@ export async function POST(req) {
         let data = [];
         try {
             const jsonData = await fs.readFile(filePath, 'utf8');
-            data = JSON.parse(jsonData);
+            data = jsonData ? JSON.parse(jsonData) : [];
         } catch (error) {
-            console.error('Error reading data:', error);
+            console.error('Error reading or parsing data:', error);
+            data = []; 
         }
 
         const formatDate = (date) => {
@@ -31,7 +32,7 @@ export async function POST(req) {
                 hour: '2-digit',
                 minute: '2-digit',
                 hour12: true,
-                timeZone: 'Asia/Kolkata'
+                timeZone: 'Asia/Kolkata',
             };
             return date.toLocaleString('en-IN', options);
         };
@@ -42,23 +43,22 @@ export async function POST(req) {
         const newEntry = {
             name,
             score,
-            category, 
-            time: formattedDate 
+            category,
+            time: formattedDate,
         };
 
         data.push(newEntry);
         await fs.writeFile(filePath, JSON.stringify(data, null, 2));
-        // console.log('Updated data:', data);
 
         return new Response(JSON.stringify({ message: 'Score saved successfully' }), {
             status: 200,
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
         });
     } catch (error) {
         console.error('Error saving score:', error.message);
         return new Response(JSON.stringify({ error: error.message || 'Failed to save score' }), {
             status: 500,
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
         });
     }
 }
@@ -67,6 +67,6 @@ export async function GET() {
     console.log('GET request received');
     return new Response(JSON.stringify({ message: 'Method not allowed' }), {
         status: 405,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
     });
 }
