@@ -48,7 +48,7 @@ export async function POST(req) {
 
         data.push(newEntry);
         await fs.writeFile(filePath, JSON.stringify(data, null, 2));
-        console.log('Updated data:', data);
+        // console.log('Updated data:', data);
 
         return new Response(JSON.stringify({ message: 'Score saved successfully' }), {
             status: 200,
