@@ -50,7 +50,4 @@ Start the container
 ```bash
   docker run -it -p 3000:3000 -e GOOGLE_ID=YOUR_GOOGLE_CLIENT_ID -e GOOGLE_SECRET=YOUR_GOOGLE_CLIENT_SECREAT alien404/nextquiz
 ```
-##  Save Score API Bug
-
-Though this app is functioning well you may see an error while submitting your score, Yes there is a bug in the savescore API, which I am working on and will fix it soon.
 
